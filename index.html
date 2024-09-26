@@ -2,34 +2,85 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Open My App</title>
+  <title>App Detection and Launch Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 50px;
+    }
+    #status {
+      font-size: 18px;
+      margin: 20px 0;
+    }
+    #openAppBtn {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
 
-<button id="openAppBtn">Open App</button>
-<p id="status"></p>
+  <h1>Welcome to Our App</h1>
+  <p id="status">Checking if the app is installed...</p>
+  <button id="openAppBtn">Run App</button>
 
-<script>
-  document.getElementById('openAppBtn').addEventListener('click', function() {
-    var appScheme = 'myapp://open?param1=value1&param2=value2';
-    var now = new Date().getTime();
-    var timeout = 2000;
-    var iframe = document.createElement('iframe');
-    iframe.style.display = 'none';
-    iframe.src = appScheme;
-    document.body.appendChild(iframe);
+  <script>
+    (function() {
+      // Configuration
+      const universalLink = 'https://ibnchahdia.github.io/deeplink_test/test';
+      
+      // Custom URL Scheme without parameters
+      const appScheme = 'yrnet://open'; 
 
-    setTimeout(function() {
-      var elapsed = new Date().getTime() - now;
-      if (elapsed < timeout + 100) {
-        document.getElementById('status').innerText = 'App is not installed.';
-      } else {
-        document.getElementById('status').innerText = 'App is installed.';
+      const statusElement = document.getElementById('status');
+      const openAppBtn = document.getElementById('openAppBtn');
+
+      // Function to detect if the app is installed
+      function detectApp(callback) {
+        const timeout = 1500;
+        let hasApp = false;
+        const start = Date.now();
+
+        // Try to open the app via the custom URL scheme
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = appScheme;
+        document.body.appendChild(iframe);
+
+        setTimeout(function() {
+          const elapsed = Date.now() - start;
+          if (elapsed > timeout + 100) {
+            hasApp = true;
+          }
+          document.body.removeChild(iframe);
+          callback(hasApp);
+        }, timeout);
       }
-      document.body.removeChild(iframe);
-    }, timeout);
-  });
-</script>
+
+      // Update the status message
+      function updateStatus(isInstalled) {
+        if (isInstalled) {
+          statusElement.innerText = 'App is installed on your device.';
+        } else {
+          statusElement.innerText = 'App is not installed on your device.';
+        }
+      }
+
+      // On page load, check if the app is installed
+      window.onload = function() {
+        detectApp(function(isInstalled) {
+          updateStatus(isInstalled);
+        });
+      };
+
+      // When 'Run App' button is clicked
+      openAppBtn.addEventListener('click', function() {
+        window.location.href = universalLink;
+      });
+    })();
+  </script>
 
 </body>
 </html>
