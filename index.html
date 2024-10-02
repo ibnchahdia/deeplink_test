@@ -2,91 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>App Detection and Launch Page</title>
+  <title>Open Our App</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding-top: 50px;
-    }
-    #status {
-      font-size: 18px;
-      margin: 20px 0;
-    }
-    #openAppBtn {
+    /* ... styles ... */
+    #openAppLink {
+      display: inline-block;
       padding: 10px 20px;
       font-size: 16px;
-      cursor: pointer;
+      text-decoration: none;
+      color: white;
+      background-color: #007bff;
+      border-radius: 5px;
     }
   </style>
 </head>
 <body>
 
   <h1>Welcome to Our App</h1>
-  <p id="status">Checking if the app is installed...</p>
-  <button id="openAppBtn">Run App</button>
-  <p id="status"></p>
-  <a id="openAppLink" href="https://playful-bonbon-54a9e5.netlify.app/deeplink_test/test">Run App direct link</a>
-  <p id="status"></p>
-  <a href="https://playful-bonbon-54a9e5.netlify.app/deeplink_test/test">Open App ZZ</a>
-
-
-
-  <script>
-    (function() {
-      // Configuration
-      const universalLink = 'https://playful-bonbon-54a9e5.netlify.app/deeplink_test/test';
-      
-      // Custom URL Scheme without parameters
-      const appScheme = 'yrnet://open'; 
-
-      const statusElement = document.getElementById('status');
-      const openAppBtn = document.getElementById('openAppBtn');
-
-      // Function to detect if the app is installed
-      function detectApp(callback) {
-        const timeout = 1500;
-        let hasApp = false;
-        const start = Date.now();
-
-        // Try to open the app via the custom URL scheme
-        const iframe = document.createElement('iframe');
-        iframe.style.display = 'none';
-        iframe.src = appScheme;
-        document.body.appendChild(iframe);
-
-        setTimeout(function() {
-          const elapsed = Date.now() - start;
-          if (elapsed > timeout + 100) {
-            hasApp = true;
-          }
-          document.body.removeChild(iframe);
-          callback(hasApp);
-        }, timeout);
-      }
-
-      // Update the status message
-      function updateStatus(isInstalled) {
-        if (isInstalled) {
-          statusElement.innerText = 'App is installed on your device.';
-        } else {
-          statusElement.innerText = 'App is not installed on your device.';
-        }
-      }
-
-      // On page load, check if the app is installed
-      window.onload = function() {
-        detectApp(function(isInstalled) {
-          updateStatus(isInstalled);
-        });
-      };
-
-      // When 'Run App' button is clicked
-      openAppBtn.addEventListener('click', function() {
-        window.location.href = universalLink;
-      });
-    })();
-  </script>
+  <p>Tap the button below to open the app.</p>
+  <a id="openAppLink" href="https://playful-bonbon-54a9e5.netlify.app/deeplink_test/test">Open App</a>
 
 </body>
 </html>
