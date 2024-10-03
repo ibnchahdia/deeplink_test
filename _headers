@@ -3,3 +3,6 @@
 
 /apple-app-site-association
   Content-Type: application/json
+
+/manifest.json
+  Content-Type: application/json
