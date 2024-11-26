@@ -1,6 +1,9 @@
 {
     "name": "Yves Rocher : beauté & makeup",
     "short_name": "Yves Rocher",
+    "display": "standalone",
+    "background_color": "#FFFFFF",
+    "theme_color": "#FFFFFF",
     "icons": [
       {
         "src": "/assets/icon-192.png",

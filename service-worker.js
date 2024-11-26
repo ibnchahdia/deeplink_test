@@ -11,6 +11,7 @@ const urlsToCache = [
 
 // Install event - caching files
 self.addEventListener('install', (event) => {
+  console.log('Service Worker installing.');
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
@@ -22,6 +23,7 @@ self.addEventListener('install', (event) => {
 
 // Fetch event - serving cached content when offline
 self.addEventListener('fetch', (event) => {
+  console.log('Fetching:', event.request.url);
   event.respondWith(
     fetch(event.request)
       .catch(() => caches.match(event.request))
@@ -30,6 +32,7 @@ self.addEventListener('fetch', (event) => {
 
 // Activate event - updating the cache
 self.addEventListener('activate', (event) => {
+  console.log('Service Worker activate.');
   const cacheWhitelist = [CACHE_NAME];
   event.waitUntil(
     caches.keys()
