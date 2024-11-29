@@ -70,34 +70,49 @@
 <p>
   ==============================================================================================================
 </p>
-<button id="openAppBtn">Open App</button>
-    <p id="status"></p>
+<p id="status">Checking if app is installed...</p>
 
     <script>
-    document.getElementById('openAppBtn').addEventListener('click', function() {
+    window.onload = function() {
         var now = Date.now();
-        var appScheme = 'com.yvesrocher://';
+        var appScheme = 'yourappscheme://';
         var fallbackUrl = 'https://yourdomain.com/download-app';
-        var timeout;
-        var didRespond = false;
+        var timeoutDuration = 1500;
+        var hasApp = false;
 
         // Attempt to open the app
-        window.location = appScheme;
+        var iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = appScheme;
+        document.body.appendChild(iframe);
 
-        // Fallback after a delay
-        timeout = setTimeout(function() {
+        // Set a timeout to check if the app was opened
+        setTimeout(function() {
             var elapsed = Date.now() - now;
-            if (elapsed < 2000) {
+            if (hasApp || elapsed > timeoutDuration + 100) {
+                // App is installed and was opened
+                document.getElementById('status').innerText = 'App is installed and has been opened.';
+            } else {
                 // App is not installed
                 document.getElementById('status').innerText = 'App is not installed.';
-                // Optionally redirect to the fallback URL
+                // Optionally, redirect to download page
                 // window.location.href = fallbackUrl;
-            } else {
-                // App is installed and opened
-                document.getElementById('status').innerText = 'App is installed and has been opened.';
             }
-        }, 1500);
-    });
+            // Clean up
+            document.body.removeChild(iframe);
+        }, timeoutDuration);
+
+        // Handle the case where the browser navigates away (app is opened)
+        var blurEventHandler = function() {
+            hasApp = true;
+        };
+        window.addEventListener('blur', blurEventHandler);
+
+        // Additional cleanup after a delay
+        setTimeout(function() {
+            window.removeEventListener('blur', blurEventHandler);
+        }, timeoutDuration + 500);
+    };
     </script>
 </body>
 </html>
