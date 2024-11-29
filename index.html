@@ -70,49 +70,34 @@
 <p>
   ==============================================================================================================
 </p>
-<p id="status">Checking if app is installed...</p>
+<button id="openAppBtn">Open App</button>
+    <p id="status"></p>
 
     <script>
-    window.onload = function() {
+    document.getElementById('openAppBtn').addEventListener('click', function() {
         var now = Date.now();
         var appScheme = 'yourappscheme://';
         var fallbackUrl = 'https://yourdomain.com/download-app';
-        var timeoutDuration = 1500;
-        var hasApp = false;
+        var timeout;
+        var didRespond = false;
 
         // Attempt to open the app
-        var iframe = document.createElement('iframe');
-        iframe.style.display = 'none';
-        iframe.src = appScheme;
-        document.body.appendChild(iframe);
+        window.location = appScheme;
 
-        // Set a timeout to check if the app was opened
-        setTimeout(function() {
+        // Fallback after a delay
+        timeout = setTimeout(function() {
             var elapsed = Date.now() - now;
-            if (hasApp || elapsed > timeoutDuration + 100) {
-                // App is installed and was opened
-                document.getElementById('status').innerText = 'App is installed and has been opened.';
-            } else {
+            if (elapsed < 2000) {
                 // App is not installed
                 document.getElementById('status').innerText = 'App is not installed.';
-                // Optionally, redirect to download page
+                // Optionally redirect to the fallback URL
                 // window.location.href = fallbackUrl;
+            } else {
+                // App is installed and opened
+                document.getElementById('status').innerText = 'App is installed and has been opened.';
             }
-            // Clean up
-            document.body.removeChild(iframe);
-        }, timeoutDuration);
-
-        // Handle the case where the browser navigates away (app is opened)
-        var blurEventHandler = function() {
-            hasApp = true;
-        };
-        window.addEventListener('blur', blurEventHandler);
-
-        // Additional cleanup after a delay
-        setTimeout(function() {
-            window.removeEventListener('blur', blurEventHandler);
-        }, timeoutDuration + 500);
-    };
+        }, 1500);
+    });
     </script>
 </body>
 </html>
