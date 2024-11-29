@@ -71,33 +71,39 @@
   ==============================================================================================================
 </p>
 <button id="openAppBtn">Open App</button>
-    <p id="status"></p>
+<p id="status"></p>
 
-    <script>
-    document.getElementById('openAppBtn').addEventListener('click', function() {
-        var now = Date.now();
-        var appScheme = 'com.yvesrocher://';
-        var fallbackUrl = 'https://yourdomain.com/download-app';
-        var timeout;
-        var didRespond = false;
+<script>
+document.getElementById('openAppBtn').addEventListener('click', function() {
+    var appScheme = 'com.yvesrocher://';
+    var fallbackUrl = 'https://yourdomain.com/download-app';
+    var timeoutDuration = 1500;
+    var hasAppOpened = false;
 
-        // Attempt to open the app
-        window.location = appScheme;
+    function onVisibilityChange() {
+        if (document.hidden) {
+            hasAppOpened = true;
+            document.getElementById('status').innerText = 'App is installed and has been opened.';
+        }
+    }
 
-        // Fallback after a delay
-        timeout = setTimeout(function() {
-            var elapsed = Date.now() - now;
-            if (elapsed < 2000) {
-                // App is not installed
-                document.getElementById('status').innerText = 'App is not installed.';
-                // Optionally redirect to the fallback URL
-                // window.location.href = fallbackUrl;
-            } else {
-                // App is installed and opened
-                document.getElementById('status').innerText = 'App is installed and has been opened.';
-            }
-        }, 1500);
-    });
-    </script>
+    document.addEventListener('visibilitychange', onVisibilityChange);
+
+    // Attempt to open the app
+    window.location = appScheme;
+
+    // Set a timeout to check if the app was opened
+    setTimeout(function() {
+        document.removeEventListener('visibilitychange', onVisibilityChange);
+
+        if (!hasAppOpened) {
+            // App is not installed
+            document.getElementById('status').innerText = 'App is not installed.';
+            // Optionally redirect to the fallback URL
+            // window.location.href = fallbackUrl;
+        }
+    }, timeoutDuration);
+});
+</script>
 </body>
 </html>
