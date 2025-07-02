@@ -4,7 +4,7 @@
     "details": [
       {
         "appID": "A3F4G9MPR2.com.yvesrocher.alpha",
-        "paths": [ "/deeplink_test/*" ]
+        "paths": [ "/testuniversallinkurl" ]
       }
     ]
   }
