@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "A3F4G9MPR2.com.yvesrocher.integ",
+        "paths": [ "/testuniversallinkurl" ]
+      }
+    ]
+  }
+}

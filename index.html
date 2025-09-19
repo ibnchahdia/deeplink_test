@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="apple-itunes-app" content="app-id=485296924">
+  <!-- <meta name="apple-itunes-app" content="app-id=485296924"> -->
   
   <title>Open Our App</title>
   <style>
@@ -70,7 +70,24 @@
 <p>
   ==============================================================================================================
 </p>
-<button id="openAppBtn">Open App</button>
+<!-- <button id="openAppBtn">Open App</button> -->
+ <h2>Deep Link Test</h2>
+
+  <ul>
+    <!-- Raw custom scheme (may not open in Chrome, but works via adb/QR/app code) -->
+    <li>
+      <a href="com.yvesrocher://magasins-instituts-de-beaute/soins-visage/CC-2934">
+        Open with raw scheme
+      </a>
+    </li>
+
+    <!-- Intent link (works in Chrome / Gmail) -->
+    <li>
+      <a href="intent://magasins-instituts-de-beaute/soins-visage/CC-2934#Intent;scheme=com.yvesrocher;package=com.yvesrocher.alpha;end">
+        Open with intent:// wrapper
+      </a>
+    </li>
+  </ul>
 <p id="status"></p>
 
 <script>

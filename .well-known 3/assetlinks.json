@@ -1,0 +1,12 @@
+[
+    {
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.yvesrocher.integ",
+        "sha256_cert_fingerprints": [
+          "DB:1B:D4:D6:78:EC:C0:3A:37:90:A6:79:AA:E7:D6:0D:EE:A3:E5:5E:5B:43:67:47:68:80:CA:60:0A:71:F8:17"
+        ]
+      }
+    }
+  ]
